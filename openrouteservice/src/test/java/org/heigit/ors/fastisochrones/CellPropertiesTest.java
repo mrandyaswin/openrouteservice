@@ -9,6 +9,7 @@ import com.graphhopper.storage.GraphHopperStorage;
 import org.heigit.ors.fastisochrones.partitioning.storage.CellStorage;
 import org.heigit.ors.fastisochrones.partitioning.storage.IsochroneNodeStorage;
 import org.heigit.ors.fastisochrones.storage.BorderNodeDistanceSet;
+import org.heigit.ors.util.ToyGraphCreationUtil;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
