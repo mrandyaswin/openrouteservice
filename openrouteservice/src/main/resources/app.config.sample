@@ -20,20 +20,20 @@
         "enabled": true,
         "maximum_range_distance": [
           { "profiles": "any", "value": 50000 },
-          { "profiles": "driving-car, driving-hgv", "value": 100000 }
+          { "profiles": "driving-car, bike-regular, walking", "value": 100000 }
         ],
         "maximum_range_time": [
           { "profiles": "any", "value": 18000 },
-          { "profiles": "driving-car, driving-hgv", "value": 3600 }
+          { "profiles": "driving-car, bike-regular, walking", "value": 3600 }
         ],
         "fastisochrones": {
           "maximum_range_distance": [
             { "profiles": "any", "value": 50000 },
-            { "profiles": "driving-car, driving-hgv", "value": 500000 }
+            { "profiles": "driving-car, bike-regular, walking", "value": 500000 }
           ],
           "maximum_range_time": [
             { "profiles": "any", "value": 18000 },
-            { "profiles": "driving-car, driving-hgv", "value": 10800 }
+            { "profiles": "driving-car, bike-regular, walking", "value": 10800 }
           ],
           "profiles": {
             "default_params": {
@@ -45,7 +45,7 @@
             "profile-vehicles-hgv": {
               "enabled": true,
               "threads": 12,
-              "weightings": "recommended, shortest",
+              "weightings": "recommended",
               "maxcellnodes": 5000
             }
           }
@@ -59,8 +59,8 @@
         "mode": "normal",
         "routing_description": "This is a routing file from openrouteservice",
         "routing_name": "openrouteservice routing",
-        "sources": ["openrouteservice/src/main/files/heidelberg.osm.gz"],
-        "init_threads": 2,
+        "sources": ["indonesia-latest.osm.pbf"],
+        "init_threads": 1,
         "attribution": "openrouteservice.org, OpenStreetMap contributors",
         "elevation_preprocessed": false,
         "profiles": {
@@ -68,12 +68,8 @@
             "car",
             "hgv",
             "bike-regular",
-            "bike-mountain",
-            "bike-road",
-            "bike-electric",
             "walking",
-            "hiking",
-            "wheelchair"
+            "motorcycle"
           ],
           "default_params": {
             "encoder_flags_size": 8,
@@ -101,7 +97,7 @@
                 "lm": {
                   "enabled": true,
                   "threads": 1,
-                  "weightings": "recommended,shortest",
+                  "weightings": "recommended",
                   "landmarks": 16
                 }
               }
@@ -121,7 +117,7 @@
               "encoder_flags_size": 8,
               "encoder_options": "turn_costs=true|block_fords=false|use_acceleration=false",
               "maximum_distance": 100000,
-              "elevation": true,
+              "elevation": false,
               "maximum_snapping_radius": 350,
               "preparation": {
                 "min_network_size": 200,
@@ -136,13 +132,71 @@
                   "lm": {
                     "enabled": false,
                     "threads": 1,
-                    "weightings": "fastest,shortest",
+                    "weightings": "fastest",
                     "landmarks": 16
                   },
                   "core": {
                       "enabled": true,
                       "threads": 1,
-                      "weightings": "fastest,shortest",
+                      "weightings": "fastest",
+                      "landmarks": 64,
+                      "lmsets": "highways;allow_all"
+                  }
+                }
+              },
+              "execution": {
+                "methods": {
+                  "ch": {
+                    "disabling_allowed": true
+                  },
+                  "lm": {
+                    "disabling_allowed": true,
+                    "active_landmarks": 6
+                  },
+                  "core": {
+                    "disabling_allowed": true,
+                    "active_landmarks": 6
+                  }
+                }
+              },
+              "ext_storages": {
+                "WayCategory": {},
+                "HeavyVehicle": {},
+                "WaySurfaceType": {},
+                "RoadAccessRestrictions": {
+                  "use_for_warnings": true
+                }
+              }
+            }
+          },
+          "profile-motorcycle": {
+            "profiles": "driving-motorcycle",
+            "parameters": {
+              "encoder_flags_size": 8,
+              "encoder_options": "turn_costs=true|block_fords=false|use_acceleration=false",
+              "maximum_distance": 100000,
+              "elevation": false,
+              "maximum_snapping_radius": 350,
+              "preparation": {
+                "min_network_size": 200,
+                "min_one_way_network_size": 200,
+
+                "methods": {
+                  "ch": {
+                    "enabled": true,
+                    "threads": 1,
+                    "weightings": "fastest"
+                  },
+                  "lm": {
+                    "enabled": false,
+                    "threads": 1,
+                    "weightings": "fastest",
+                    "landmarks": 16
+                  },
+                  "core": {
+                      "enabled": true,
+                      "threads": 1,
+                      "weightings": "fastest",
                       "landmarks": 64,
                       "lmsets": "highways;allow_all"
                   }
@@ -179,7 +233,7 @@
               "encoder_flags_size": 8,
               "encoder_options": "turn_costs=true|block_fords=false|use_acceleration=false",
               "maximum_distance": 100000,
-              "elevation": true,
+              "elevation": false,
               "preparation": {
                 "min_network_size": 200,
                 "min_one_way_network_size": 200,
@@ -193,13 +247,13 @@
                   "lm": {
                     "enabled": true,
                     "threads": 1,
-                    "weightings": "recommended,shortest",
+                    "weightings": "recommended",
                     "landmarks": 16
                   },
                   "core": {
                     "enabled": true,
                     "threads": 1,
-                    "weightings": "recommended,shortest",
+                    "weightings": "recommended",
                     "landmarks": 64,
                     "lmsets": "highways;allow_all"
                   }
@@ -234,7 +288,7 @@
             "profiles": "cycling-regular",
             "parameters": {
               "encoder_options": "consider_elevation=true|turn_costs=true|block_fords=false",
-              "elevation": true,
+              "elevation": false,
               "ext_storages": {
                 "WayCategory": {},
                 "WaySurfaceType": {},
@@ -247,7 +301,7 @@
             "profiles": "cycling-mountain",
             "parameters": {
               "encoder_options": "consider_elevation=true|turn_costs=true|block_fords=false",
-              "elevation": true,
+              "elevation": false,
               "ext_storages": {
                 "WayCategory": {},
                 "WaySurfaceType": {},
@@ -260,7 +314,7 @@
             "profiles": "cycling-road",
             "parameters": {
               "encoder_options": "consider_elevation=true|turn_costs=true|block_fords=false",
-              "elevation": true,
+              "elevation": false,
               "ext_storages": {
                 "WayCategory": {},
                 "WaySurfaceType": {},
@@ -273,7 +327,7 @@
             "profiles": "cycling-electric",
             "parameters": {
               "encoder_options": "consider_elevation=true|turn_costs=true|block_fords=false",
-              "elevation": true,
+              "elevation": false,
               "ext_storages": {
                 "WayCategory": {},
                 "WaySurfaceType": {},
@@ -286,7 +340,7 @@
             "profiles": "foot-walking",
             "parameters": {
               "encoder_options": "block_fords=false",
-              "elevation": true,
+              "elevation": false,
               "ext_storages": {
                 "WayCategory": {},
                 "WaySurfaceType": {},
@@ -299,7 +353,7 @@
             "profiles": "foot-hiking",
             "parameters": {
               "encoder_options": "block_fords=false",
-              "elevation": true,
+              "elevation": false,
               "ext_storages": {
                 "WayCategory": {},
                 "WaySurfaceType": {},
@@ -313,7 +367,7 @@
             "profiles": "wheelchair",
             "parameters": {
               "encoder_options": "block_fords=true",
-              "elevation": true,
+              "elevation": false,
               "maximum_snapping_radius": 50,
               "ext_storages": {
                 "WayCategory": {},
